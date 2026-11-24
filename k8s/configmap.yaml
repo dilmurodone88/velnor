@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: it-service
+data:
+  NEXT_PUBLIC_SITE_URL: "https://velnor.uz"
+  NODE_ENV: "production"

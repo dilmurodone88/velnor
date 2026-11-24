@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.env
+.env.local
+k8s
+*.md
+Dockerfile*
+docker-compose*.yml

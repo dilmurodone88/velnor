@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --color-bg: #05060b;
+  --color-surface: #0b0d16;
+  --color-line: rgba(255, 255, 255, 0.08);
+  /* Yagona brend rang — ko'k. Boshqa rang ishlatilmaydi */
+  --color-brand-50: #eef3ff;
+  --color-brand-100: #dce6ff;
+  --color-brand-200: #bccfff;
+  --color-brand-300: #8fb0ff;
+  --color-brand-400: #6690ff;
+  --color-brand-500: #3f6dff;
+  --color-brand-600: #2b52f0;
+  --color-brand-700: #2340cc;
+  --color-brand-800: #2236a3;
+  --color-brand-900: #1f2f80;
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-marquee-rev: marquee-rev 40s linear infinite;
+  --animate-spin-slow: spin 18s linear infinite;
+  --animate-spin-slower: spin 30s linear infinite reverse;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shine: shine 3.5s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  --animate-scan: scan 3s ease-in-out infinite;
+  --animate-page-in: page-in 0.4s ease-out both;
+  --animate-ring-wiggle: ring-wiggle 3s ease-in-out infinite;
+
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes marquee-rev { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes shine { from { background-position: 200% center; } to { background-position: -200% center; } }
+  @keyframes pulse-ring { 0% { transform: scale(0.8); opacity: 0.7; } 100% { transform: scale(2.2); opacity: 0; } }
+  @keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+  /* Qisqa silkinish, keyin uzoq tinchlik (transform — kompozitorda) */
+  @keyframes ring-wiggle { 0%, 33%, 100% { transform: rotate(0); } 6% { transform: rotate(-15deg); } 13% { transform: rotate(15deg); } 20% { transform: rotate(-10deg); } 27% { transform: rotate(10deg); } }
+  @keyframes scan { 0%, 100% { transform: translateY(8%); } 50% { transform: translateY(88%); } }
+}
+
+:root { color-scheme: dark; }
+
+/* Qaytgan tashrifchilar: splash hidratsiyadan oldin yashiriladi (layout.tsx dagi inline skript) */
+html[data-splash="off"] #splash { display: none; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+body {
+  background: var(--color-bg);
+  color: #e6e8f0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection { background: rgba(63, 109, 255, 0.4); color: #fff; }
+
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: #05060b; }
+::-webkit-scrollbar-thumb { background: linear-gradient(#6690ff, #2b52f0); border-radius: 10px; border: 2px solid #05060b; }
+
+@utility container-x {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 768px) { padding-inline: 2rem; }
+}
+
+/* background-image ishlatiladi, shunda bg-[...] fon rangi bilan birga ishlaydi */
+@utility glass {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@utility text-gradient {
+  background: linear-gradient(90deg, #ffffff, #8fb0ff, #3f6dff, #8fb0ff, #ffffff);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility mask-fade {
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+@utility mask-x {
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Kartochka ustida sichqoncha nuri */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.09), transparent 45%);
+  z-index: -1;
+}
+.spotlight:hover::after { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}
+
+/* wow primitives — faqat transform/opacity animatsiyasi (kompozitorda) */
+@keyframes wow-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes wow-spin-rev { from { transform: rotate(360deg); } to { transform: rotate(0deg); } }
+/* Ekrandan tashqarida: barcha cheksiz animatsiyalar to'xtaydi (InViewPause) */
+[data-paused="true"], [data-paused="true"] * { animation-play-state: paused !important; }
+.wow-spin { animation: wow-spin var(--wow-dur, 20s) linear infinite; will-change: transform; }
+.wow-spin-rev { animation: wow-spin-rev var(--wow-dur, 20s) linear infinite; will-change: transform; }
+/* RotatingBorder: faqat aylanadigan konik qatlam */
+.wow-border-active .wow-border-layer { opacity: 1; }
+.group:hover .wow-border-hover .wow-border-layer,
+.wow-border-hover:hover .wow-border-layer { opacity: 1; }
+/* wow primitives — end */
